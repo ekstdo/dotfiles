@@ -1,3 +1,5 @@
-ln ./.zshrc ~/.zshrc 
+ln -sr ./.zshrc ~/.zshrc 
 mkdir -p ~/.config/kitty
-ln ./kitty.conf ~/.config/kitty/
+ln -sr ./kitty.conf ~/.config/kitty/
+ln -sr ./neovim-config ~/.config
+mv ~/.config/neovim-config ~/.config/nvim
