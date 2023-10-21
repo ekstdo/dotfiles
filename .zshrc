@@ -77,7 +77,9 @@ GOPATH=$HOME/.gocode
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*' 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#777777"
 
-export PATH="$PATH:$HOME/.local/share/nvim/mason/bin/"
+export NPM_PACKAGES="$HOME/.npm-packages"
+export NDOE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin/:$HOME/.local/bin:$HOME/.local/bin/*/:$HOME/.cargo/bin:$HOME/.npm/bin:$NODE_PATH"
 
 rga-fzf() {
 	RG_PREFIX="rga --files-with-matches"
@@ -94,6 +96,9 @@ rga-fzf() {
 	xdg-open "$file"
 }
 
+
+alias his="cat ~/.zsh_history | fzf | zsh"
+alias icat="kitty +kitten icat"
 alias nvimtest="cd ~/Dokumente/test/ && nvim"
 alias quickpython='echo "import sympy\\nfrom sympy.abc import x, y, z\\nimport numpy as np\\nimport matplotlib.pyplot as plt\\nimport matplotlib as mat\\n\\n\\n" > /tmp/quickpython.py && export TMPPATH="$(pwd)" && cd /tmp && nvim /tmp/quickpython.py +"bo split" +term +"winc t" +start && cd "$TMPPATH"'
 alias nvimconfig='export TMPPATH="$(pwd)" && cd $HOME/.config/nvim && nvim init.lua +NvimTreeOpen && cd "$TMPPATH"'
@@ -144,3 +149,13 @@ function battery_level {
  let "current=100*$charge_current/$charge_full"                                                                                                     
  echo "$current%"                                                                                                                                   
 }
+
+
+alias split_by_size='i=0;
+for f in `ls -S`;
+do
+    d=dir_$(printf %03d $((i/100+1)));
+    mkdir -p $d;
+    mv "$f" $d;
+    let i++;
+done'
