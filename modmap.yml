@@ -1,0 +1,21 @@
+modmap:
+  - name: main remaps
+    remap: 
+      CapsLock: Tab
+      Tab: Delete
+      Leftshift:
+        held: Leftshift
+        alone: Kpleftparen
+        alone_timeout_millis: 150
+      Rightshift:
+        held: Rightshift
+        alone: Kprightparen
+        alone_timeout_millis: 150
+
+keymap:
+  - name: Minesweeper 
+    application: 
+      only: Mines 
+    remap:
+      t: Space 
+      s: Enter
