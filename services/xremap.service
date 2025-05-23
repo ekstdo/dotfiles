@@ -1,0 +1,12 @@
+[Unit]
+Description=xremap
+
+[Service]
+ExecStart=/usr/bin/xremap /home/ekstdo/.config/dotfiles/modmap.yml
+Type=simple
+KillMode=process
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

@@ -79,7 +79,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#777777"
 
 export NPM_PACKAGES="$HOME/.npm-packages"
 export NDOE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
-export PATH="$PATH:$HOME/.local/share/nvim/mason/bin/:$HOME/.local/bin:$HOME/.local/bin/*/:$HOME/.cargo/bin:$HOME/.npm/bin:$NODE_PATH"
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin/:$HOME/.local/bin:$HOME/.local/bin/*/:$HOME/.cargo/bin:$HOME/.npm/bin:$NODE_PATH:$HOME/.cabal/bin"
 
 rga-fzf() {
 	RG_PREFIX="rga --files-with-matches"
@@ -97,6 +97,8 @@ rga-fzf() {
 }
 
 
+
+
 alias his="cat ~/.zsh_history | fzf | zsh"
 alias icat="kitty +kitten icat"
 alias nvimtest="cd ~/Dokumente/test/ && nvim"
@@ -112,11 +114,9 @@ function fzopen() {
 	output=$(fd | fzy) && xdg-open $output
 }
 function mvhere() {
-	output=$(fd . ~ | fzy) && mv $output .
+	output=$(fd . ${1:=~/Downloads/} | fzy) && mv $output .
 }
-function mvdhere() {
-	output=$(fd . ~/Downloads/ | fzy) && mv $output .
-}
+
 
 alias nixswitch="sudo nixos-rebuild switch --flake '$HOME/nikstdo/.#nikstdoConfig'"
 alias nixhomeswitch="home-manager switch --flake '$HOME/nikstdo/.#nikstdoConfig'"
@@ -159,3 +159,35 @@ do
     mv "$f" $d;
     let i++;
 done'
+
+
+alias bssh="s -L localhost:8888:localhost:8888 -L localhost:6006:localhost:6006 -L localhost:8080:localhost:8080 mmc-user@gimpel.informatik.uni-augsburg.de -p 6104"
+alias bsshfs="sshfs mmc-user@gimpel.informatik.uni-augsburg.de:/home/mmc-user ./mountpoint -p 6104"
+
+
+
+
+extract_all_pdfimages() {
+	for file in ${~1:=./**/*.pdf}
+	do mkdir "${file%.*}/"
+		pdfimages "$file" "${file%.*}/"
+		fclones group "${file%.*}/" | fclones remove
+	done
+}
+
+
+
+convert_all_img() {
+	for file in ${~1}; do magick "$file" "${file%.*}.$2"; done
+}
+
+# sets out of memory priority, negative to make it less likely to be killed
+# requires root 
+set_oom() {
+	if [ -e /proc/$1 ]
+	then sudo echo $2 > /proc/$1/oom_adj
+	else sudo echo $2 > /proc/$(pidof $1)/oom_adj
+	fi
+}
+
+setopt allexport ; . $HOME/.env ; unsetopt allexport
